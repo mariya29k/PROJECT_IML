@@ -1,15 +1,23 @@
 #pragma once
 
-template <class T>
+template<class T>
 class DLList
 {
+    public:
+    //big four
+    DLList();
+    DLList(const DLList<T> &other);
+    DLList<T>& operator=(const DLList<T> &other);
+    ~DLList();
+
     private:
 
+    //Node is an element of the list
     struct Node
     {
-        T data; //value of element
-        Node* next; //pointer to the next element of the list
-        Node* prev; //pointer to the previous element of the list
+        T data; //value
+        Node* next; // pointer to the next element in the list
+        Node* prev; //pointer to the previous element in the list
 
         Node(T data, Node* next = nullptr, Node* prev = nullptr)
         {
@@ -19,39 +27,30 @@ class DLList
         }
     };
 
-    Node* first; //pointer to the first element of the list
-    Node* last; //pointer to the last element of the list
-    size_t size;
+    Node* first; //pointer-helper to hold the connection to the first element of the list;
+    size_t size; 
 
-    void clear();
+    //helper functions for cleaner work with the constructors
     void copy(const DLList<T>& other);
+    void clear();
 
     public:
 
-    DLList();
-    DLList(const DLList<T> &other);
-    DLList<T>& operator=(const DLList &other);
-    ~DLList();
-
-    void pushfront(T data);
+    //adding new element to the list
     void pushback(T data);
+    void pushfront(T data);
 
-    void print() const;
-    DLList<T> operator + (const T&) const;
-    DLList<T>& operator += (const T&);
+    void print();
     
-    void reverse();
-    void swap(Node *left, Node *right);  
     bool empty();
 
-    Node *merge(Node *first, Node *second);
-    //first element, last element
+    //sort
+    void reverse();
     //mergeSort
-    //split 
-    Node *getFirst(const DLList<T> &list);
-    Node *getLast(const DLList<T> &list);
+    //split
 
-    public:
+    //************
+    //Iterator from lectures
     class Iterator
     {
         public:
@@ -72,8 +71,4 @@ class DLList
     Iterator end();
 
     bool deleteAt(const Iterator&);
-      
-    // //Temporary
-    // template<class E> 
-    // friend std::ostream& operator << (std::ostream& out, const DLList<E>& list);
 };

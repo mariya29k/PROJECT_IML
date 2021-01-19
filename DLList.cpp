@@ -1,78 +1,134 @@
 #include <iostream>
-#include <cassert>
+#include <exception>
 #include "DLList.h"
 
-template <class T>
-DLList<T>::DLList(): size(0), first(nullptr), last(nullptr)
+
+template<class T>
+DLList<T>::DLList(): first(nullptr), size(0)
 {
 
 }
 
-template <class T>
+template<class T>
 DLList<T>::DLList(const DLList<T> &other)
 {
     this->copy(other);
 }
 
-template <class T>
-DLList<T>& DLList<T>::operator=(const DLList &other)
+template<class T>
+DLList<T>& DLList<T>::operator=(const DLList<T> &other)
 {
-    if (this != &other)
+    if(this != &other)
     {
-        this->clear(); //same as clear();
+        this->clear();
         this->copy(other);
     }
+
     return *this;
 }
 
-template <class T>
+template<class T>
 DLList<T>::~DLList()
 {
     this->clear();
 }
 
-template <class T>
-void DLList<T>::pushfront(T data)
+template<class T>
+void DLList<T>::copy(const DLList<T>& other)
 {
-    Node* newNode = new Node(data);
-    if (this->first != nullptr) //if list isn't empty
-    {
-        newNode->next = this->first;
-        this->first->prev = newNode;
-    }
+    this->size = other.size;
 
-    this->first = newNode;
-    this->size++;
+    //we copy the pointer to the first element of the other list
+    Node* holder = newNode(other.first->data);
+    this->first = holder;
+
+    //create new pointers used to go through both lists
+    Node* otherCopy = other.first; //list we want to copy
+    Node* thisCopy = this->fist;    //current list
+    Node* newNode = nullptr;
+
+    while (otherCopy->next != nullptr) //going through the list
+    {
+        //connecting and copying
+        newNode = new Node(otherCopy->next->data);
+        thisCopy->next = newNode;
+        newNode->prev = thisCopy;
+
+        //next step
+        otherCopy = otherCopy->next;
+        thisCopy = thisCopy->next;
+    }
 }
 
-template <class T>
+template<class T>
+void DLList<T>::clear()
+{
+    Node* holder = nullptr; //pointer that saves the connection to the next element
+
+    while(first != nullptr)
+    {
+        holder = this->first->next; //next step
+        delete this->first; 
+        this->first = holder;
+    }
+
+    this->size = 0;    
+}
+
+template<class T>
 void DLList<T>::pushback(T data)
 {
-    Node* newNode = new Node(data);
+    Node* newNode = new Node(data); //creating the new element
 
-    if (this->first == nullptr) //check wheter list is empty
+    //if empty
+    if (first == nullptr)
     {
-        this->first = newNode;
+        first = newNode;
     }
     else
     {
         Node* current = this->first;
-        while (current->next != nullptr) 
-        {
-            current = current->next;
-        }
-        current->next = newNode;
-        newNode->prev = current;
+
+        //going through the list until we reach the last element
+            while (current->next != nullptr)
+            {
+                current = current->next;
+            }
+            //connecting the new element
+            current->next = newNode;
+            newNode->prev = current;        
     }
-    this->size++;
+    size++;    
 }
 
-template <class T>
-void DLList<T>::print() const
+template<class T>
+void DLList<T>::pushfront(T data)
 {
-    Node* current = this->first;
+    //creating the new element
+    Node* newNode = new Node(data);
+    
+    //if the list is not empty
+    if(this->first != nullptr)
+    {
+        //putting the new element in the front of the list 
+        //and connecting it with the first element
+        newNode->next = first;
+        first->prev = newNode;
+    }
+    //if empty
+    else
+    {
+        this->first = newNode;
+    }
+    size++;    
+}
 
-    while (current != nullptr)
+template<class T>
+void DLList<T>::print()
+{
+    Node* current = first;
+
+    while(current != nullptr)
     {
         std::cout << current->data << " ";
         current = current->next;
@@ -80,111 +136,30 @@ void DLList<T>::print() const
     std::cout << "\n";
 }
 
-//from lectures
-template <class T>
-DLList<T> DLList<T>::operator + (const T& x) const
-{
-    DLList<T> result(*this);
-    result += x;
-    return result;
-}
-
-//*************************************************************************
-//FIX THIS
-template <class T>
-DLList<T>& DLList<T>::operator += (const T& x)
-{
-
-    first->next = new DLList<T>::Node {x,first->next,&first};
-
-    if (first->prev == &first)
-    {
-        first->prev = first->next;
-    } else 
-    {
-        first->next->next->prev = first->next;
-    }
-
-    return *this;
-}
-
-/*Ако добавяш отзад
-Свързваш ласт->некст с нюноуд
-И нюноуд->прев с ласт
-И местиш ласт
-Ако е отпред е същото ама с фърст*/
-
-//************************************************************************8
-template <class T>
-void DLList<T>::reverse()
-{
-    typename DLList<T>::Node* current = first;
-    typename DLList<T>::Node* holder; //saves the connection
-    
-    while (current != nullptr)
-    {
-
-        holder = current->next;
-        current->next = current->prev;
-        current->prev = holder;
-
-        current = holder;
-    }
-
-    holder = first;
-    first = last;
-    last = holder;
-}
-
-
-// //idk if i need it yet
-// template <class T>
-// void DLList<T>::swap(Node *left, Node *right)
-// {
-
-// }
-
-template <class T>
+template<class T>
 bool DLList<T>::empty()
 {
     return first == nullptr;
 }
 
-template <class T>
-void DLList<T>::clear()
+template<class T>
+void DLList<T>::reverse()
 {
-    Node* holder = nullptr; //pointer used to save the connection to the next element
+    Node* current = first;
+    Node* holder = nullptr; //pointer used to save the connection to the previous element
 
-    while (this-> first != nullptr)
+    while(current != nullptr)
     {
-        holder = this->first->next;
-        delete this->first;
-        this->first = holder;
+        //switching connections
+        holder = current->prev;
+        current->prev = current->next;
+        current->next = holder;
+        current = current->prev;
     }
-    this->size = 0;
-}
 
-//can this be better?
-template <class T>
-void DLList<T>::copy(const DLList<T>& other)
-{
-    this->size = other.size;
-
-    Node* copyFirst = new Node (other.first->data);
-    this->first = copyFirst;
-
-    Node* otherCurrent = other.first; //pointer used for going through the list we want to copy (other)
-    Node* copyCurrent = this->first; //pointer used for going through the current list
-    Node* newNode = nullptr;
-
-    while (otherCurrent->next != nullptr)
+    if (holder != nullptr)
     {
-        newNode = new Node(otherCurrent->next->data);
-        copyCurrent->next = newNode;
-        newNode->prev = copyCurrent;
-
-        otherCurrent = otherCurrent->next;
-        copyCurrent = copyCurrent->next;
+        first = holder->prev;
     }
 }
 
@@ -272,10 +247,10 @@ bool DLList<T>::deleteAt (const Iterator &it)
         first = first->next;
         delete save;
 
-        if (first == nullptr) //this means the list had only one element
-        {
-            last = nullptr;
-        }
+        // if (first == nullptr) //this means the list had only one element
+        // {
+        //     last = nullptr;
+        // }
 
         return true;
     }
@@ -286,82 +261,13 @@ bool DLList<T>::deleteAt (const Iterator &it)
     if(crr->next != nullptr)
     {
         crr->next->prev = crr->prev;
-    } else
-    {
-        last = crr->prev;
-    }
     
+    }
+    //  else
+    // {
+    //     last = crr->prev;
+    // }
     delete save;
 
     return true;
 }
-
-// Function to merge two linked lists  
-template <class T>
-typename DLList<T>::Node* DLList<T>::merge(Node *first, Node *second)  
-{  
-    // If first linked list is empty  
-    if (!first)  
-        return second;  
-  
-    // If second linked list is empty  
-    if (!second)  
-        return first;  
-  
-    // Pick the smaller value  
-    if (first->data < second->data)  
-    {  
-        first->next = merge(first->next,second);  
-        first->next->prev = first;  
-        first->prev = NULL;  
-        return first;  
-    }  
-    else
-    {  
-        second->next = merge(first,second->next);  
-        second->next->prev = second;  
-        second->prev = NULL;  
-        return second;  
-    }  
-}
-
-template<class T>
-typename DLList<T>::Node* DLList<T>::getFirst(const DLList<T> &list)
-{
-    typename DLList<T>::Node* current = list;
-
-    assert(current != nullptr);
-
-    return current;
-}
-
-template<class T>
-typename DLList<T>::Node* DLList<T>::getLast(const DLList<T> &list)
-{
-    typename DLList<T>::Node* current = list->first;
-
-    if(current == nullptr)
-    {
-        return current;
-    }
-    
-    while (current->first != nullptr)
-    {
-        current = current->first;
-    }
-    
-    return current;
-}
-
-// //check this
-// template<class T>
-// std::ostream& operator << (std::ostream &out, const DLList<T> &list)
-// {
-//     typename DLList<T>::Node *crr = list->first;
-//     while (crr != nullptr)
-//     {
-//         out << crr -> data << " ";
-//         crr = crr -> next;
-//     }
-//     return out;
-// }
