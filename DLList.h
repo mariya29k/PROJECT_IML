@@ -45,8 +45,11 @@ class DLList
     bool empty();
 
     Node *merge(Node *first, Node *second);
+    //first element, last element
     //mergeSort
     //split 
+    Node *getFirst(const DLList<T> &list);
+    Node *getLast(const DLList<T> &list);
 
     public:
     class Iterator
@@ -70,7 +73,7 @@ class DLList
 
     bool deleteAt(const Iterator&);
       
-    //Temporary
-    template<class E> 
-    friend ostream& operator << (ostream&, const DLList<E>&);
+    // //Temporary
+    // template<class E> 
+    // friend std::ostream& operator << (std::ostream& out, const DLList<E>& list);
 };

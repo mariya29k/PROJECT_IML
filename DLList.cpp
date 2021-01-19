@@ -1,8 +1,9 @@
 #include <iostream>
+#include <cassert>
 #include "DLList.h"
 
 template <class T>
-DLList<T>::DLList(): size(0), fist(nullptr), last(nullptr)
+DLList<T>::DLList(): size(0), first(nullptr), last(nullptr)
 {
 
 }
@@ -157,7 +158,7 @@ void DLList<T>::clear()
     while (this-> first != nullptr)
     {
         holder = this->first->next;
-        delete = this->first;
+        delete this->first;
         this->first = holder;
     }
     this->size = 0;
@@ -199,7 +200,7 @@ typename DLList<T>::Iterator& DLList<T>::Iterator::operator++()
 {
     if (current == nullptr)
     {
-        throw out_of_range("No more elements in list.");
+        throw std::out_of_range("No more elements in list.");
     }
     current = current->next;
     return *this;
@@ -212,7 +213,7 @@ typename DLList<T>::Iterator& DLList<T>::Iterator::operator--()
     {
         if (list->first == nullptr)
         {
-            throw out_of_range("List is empty.");
+            throw std::out_of_range("List is empty.");
         } 
         else
         {
@@ -297,7 +298,7 @@ bool DLList<T>::deleteAt (const Iterator &it)
 
 // Function to merge two linked lists  
 template <class T>
-DLList<T>::Node* DLList<T>::merge(Node *first, Node *second)  
+typename DLList<T>::Node* DLList<T>::merge(Node *first, Node *second)  
 {  
     // If first linked list is empty  
     if (!first)  
@@ -322,17 +323,45 @@ DLList<T>::Node* DLList<T>::merge(Node *first, Node *second)
         second->prev = NULL;  
         return second;  
     }  
-}  
-
-//check this
-template<class T>
-std::ostream& operator << (std::ostream &out, const DLList<T> &list)
-{
-    typename DLList<T>::Box<T> *crr = list.first;
-    while (crr != nullptr)
-    {
-        out << crr -> data << " ";
-        crr = crr -> next;
-    }
-    return out;
 }
+
+template<class T>
+typename DLList<T>::Node* DLList<T>::getFirst(const DLList<T> &list)
+{
+    typename DLList<T>::Node* current = list;
+
+    assert(current != nullptr);
+
+    return current;
+}
+
+template<class T>
+typename DLList<T>::Node* DLList<T>::getLast(const DLList<T> &list)
+{
+    typename DLList<T>::Node* current = list->first;
+
+    if(current == nullptr)
+    {
+        return current;
+    }
+    
+    while (current->first != nullptr)
+    {
+        current = current->first;
+    }
+    
+    return current;
+}
+
+// //check this
+// template<class T>
+// std::ostream& operator << (std::ostream &out, const DLList<T> &list)
+// {
+//     typename DLList<T>::Node *crr = list->first;
+//     while (crr != nullptr)
+//     {
+//         out << crr -> data << " ";
+//         crr = crr -> next;
+//     }
+//     return out;
+// }
