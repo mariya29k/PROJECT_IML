@@ -143,6 +143,12 @@ bool DLList<T>::empty()
 }
 
 template<class T>
+int DLList<T>::getSize()
+{
+    return size;
+}
+
+template<class T>
 void DLList<T>::reverse()
 {
     Node* current = first;
@@ -162,6 +168,49 @@ void DLList<T>::reverse()
         first = holder->prev;
     }
 }
+
+template<class T>
+typename DLList<T>::Node* DLList<T>::split()
+{
+    Node* slowPtr = first; //slowPtr ++ once
+    Node* fastPtr = first; //fastPtr ++ twice
+
+    while (fastPtr->next != nullptr && fastPtr->next->next != nullptr)
+	{
+		fastPtr = fastPtr->next->next;
+		slowPtr = slowPtr->next;
+	}
+
+	Node* temp = slowPtr->next;
+	slowPtr->next = nullptr;
+	return temp;
+}
+
+template<class T>
+typename DLList<T>::Node* DLList<T>::splitAt(int n)
+{
+    int count = 1;
+    Node* current = first;
+    Node* helper;
+    
+    while(current != nullptr)
+    {
+        if(count != n-1)
+        {
+            helper = current;
+            delete current;
+            helper = current->next;
+        }
+    }
+    return helper;
+}
+
+// template<class T>
+// typename DLList<T>::Node* DLList<T>::merge();
+
+// template<class T>
+// typename DLList<T>::Node* DLList<T>::mergeSort();
+
 
 //from lectures
 template<class T>

@@ -43,11 +43,15 @@ class DLList
     void print();
     
     bool empty();
+    int getSize();
 
     //sort
     void reverse();
-    //mergeSort
-    //split
+    Node* split();
+    Node* splitAt(int);
+    Node* merge();
+    Node* mergeSort();
+    
 
     //************
     //Iterator from lectures
