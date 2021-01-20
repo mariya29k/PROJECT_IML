@@ -31,6 +31,7 @@ class Tag
     //getters
     std::string getKind() const;
     std::string getExpression() const;
+    //how to get argument
     bool getArgument() const;
 
 };
