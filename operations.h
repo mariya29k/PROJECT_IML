@@ -5,21 +5,22 @@
 class Operations
 {
     private:
-    Tag expression;
+    Tag tag;
+    DLList<double> list;
+    DLList<double> newList;
 
+
+    public:
     void MAP();
     void AGG();
     void SRT();
-
-    public:
     
     double add (double first, double second);
     double multiply (double first, double second);
     double average();
-    void ascending();
-    void descending();
+    // void ascending(const DLList<double>&);
+    // void descending(const DLList<double>&);
 
-    
 };
 
 /*
