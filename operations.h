@@ -5,7 +5,7 @@
 class Operations
 {
     private:
-    //Tag expression;
+    Tag expression;
 
     void MAP();
     void AGG();
@@ -23,6 +23,7 @@ class Operations
 };
 
 /*
+    -------- OPERATIONS ----------
     1. Map
         - INC +
         - MLT *
