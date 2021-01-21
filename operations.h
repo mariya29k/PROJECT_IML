@@ -16,6 +16,7 @@ class Operations
     
     double add (double first, double second);
     double multiply (double first, double second);
+    void order(std::string argument);
     // void ascending(const DLList<double>&);
     // void descending(const DLList<double>&);
 

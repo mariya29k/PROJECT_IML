@@ -76,27 +76,14 @@ void Operations::AGG()
 
 void Operations::SRT()
 {
-    //switch
     if (tag.getExpression() == "REV")
     {
         list.reverse();
     }
 
     if (tag.getExpression() == "ORD")
-    {
-        if(tag.getArgument() == "ASC")
-        {
-            //sorts the list in ascending order
-            // list.mergeSort(list);
-        }
-
-        if (tag.getArgument() == "DSC")
-        {
-            //list.mergeSort(list)
-            //reverses the already sorted in asc order list 
-            //so we get the list sorted in descending order
-            list.reverse();
-        }
+    {   
+        //order(argument); 
     }
 
     if (tag.getExpression() == "SLC")
@@ -117,6 +104,20 @@ double Operations::add (double first, double second)
 double Operations::multiply (double first, double second)
 {
     return first * second;
+}
+
+void Operations::order(std::string argument)
+{
+    //sorts the list in ascending order
+    list.mergeSortList(list);
+
+    if (argument == "DSC")
+    {
+        //reverses the already sorted in asc order list 
+        //so we get the list sorted in descending order
+        list.reverse();
+    }
+
 }
 
  
