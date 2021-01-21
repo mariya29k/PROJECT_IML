@@ -149,6 +149,35 @@ int DLList<T>::getSize()
 }
 
 template<class T>
+T DLList<T>::getFirst()
+{
+    Node* current = first;
+    if (current == nullptr)
+    {
+        throw std::out_of_range("List is empty");
+    }
+
+    return first->data;
+}
+
+template<class T>
+T DLList<T>::getLast()
+{
+    Node* current = first;
+    if (current == nullptr)
+    {
+        throw std::out_of_range("List is empty");
+    }
+    
+    while(current->next != nullptr)
+    {
+        current = current->next;
+    }
+
+    return current->data;
+}
+
+template<class T>
 void DLList<T>::reverse()
 {
     Node* current = first;
@@ -169,47 +198,122 @@ void DLList<T>::reverse()
     }
 }
 
-template<class T>
-typename DLList<T>::Node* DLList<T>::split()
-{
-    Node* slowPtr = first; //slowPtr ++ once
-    Node* fastPtr = first; //fastPtr ++ twice
+//The functions split, merge and mergeSort didn't work successfully when given
+//a parameter DLList<T> -- this idea is taken from the internet
+// template<class T>
+// void DLList<T>::split(Node* head, Node** a, Node** b)
+// {
+//     Node* slowPtr = head; //slowPtr ++ once
+//     Node* fastPtr = head; //fastPtr ++ twice
 
-    while (fastPtr->next != nullptr && fastPtr->next->next != nullptr)
-	{
-		fastPtr = fastPtr->next->next;
-		slowPtr = slowPtr->next;
-	}
+//     while (fastPtr->next != nullptr && fastPtr->next->next != nullptr)
+// 	{
+// 		fastPtr = fastPtr->next->next;
+// 		slowPtr = slowPtr->next;
+// 	}
 
-	Node* temp = slowPtr->next;
-	slowPtr->next = nullptr;
-	return temp;
-}
+//     //Node* temp?
+// 	b = slowPtr->next;
+// 	slowPtr->next = nullptr;
+// }
 
-template<class T>
-typename DLList<T>::Node* DLList<T>::splitAt(int n)
-{
-    int count = 1;
-    Node* current = first;
-    Node* helper;
+// template<class T>
+// typename DLList<T>::Node* DLList<T>::splitAt(int n)
+// {
+//     int count = 1;
+//     Node* current = first;
+//     Node* helper;
     
-    while(current != nullptr)
-    {
-        if(count != n-1)
-        {
-            helper = current;
-            delete current;
-            helper = current->next;
-        }
-    }
-    return helper;
+//     while(current != nullptr)
+//     {
+//         if(count != n-1)
+//         {
+//             helper = current;
+//             delete current;
+//             helper = current->next;
+//         }
+//     }
+//     return helper;
+// }
+
+// template<class T>
+// typename DLList<T>::Node* DLList<T>::merge(Node* list1, Node* list2)
+// {
+//     //If a list is empty
+//     if(list1 == nullptr)
+//     {
+//         return list2;
+//     }
+
+//     if(list2 == nullptr)
+//     {
+//         return list1;
+//     }
+
+//     //Recursively chosing the smallest and merge
+//     if(a->data <= b<-data)
+//     {
+//         a->next = merge(a->next,b);
+//         a->next->prev = a;
+//         a->prev = nullptr;
+//         return a
+//     } else
+//     {
+//         b->next = merge(b->next, a);
+//         b->next->prev = b;
+//         b->prev = nullptr;
+//         return b;
+//     }    
+// }
+// //i guess in order to avoid .... use **
+// template<class T>
+// void DLList<T>::mergeSort(Node** head)
+// {
+//     if (*head == nullptr || (*head)->next == nullptr)
+//     {  
+//         throw std::out_of_range ("List is empty.");
+//     }
+
+//     //splits the list1 and list2 into sublists
+//     Node *list1 = head, 
+//         *list2 = nullptr;
+//     split(*head, &list1, &list2);
+  
+//     // Recur for left and right halves  
+//     mergeSort(&list1);  
+//     mergeSort(&list2);  
+  
+//     // Merge the two sorted halves  
+//     head = merge(list1, list2); 
+// }
+
+template<class T>
+void DLList<T>::removeOccurences()
+{
+	Node* firstPtr = first;
+	Node* secondPtr = nullptr;
+	Node* nextHolder = nullptr;
+
+	while (firstPtr != nullptr && firstPtr->next != nullptr)
+	{
+		secondPtr = firstPtr->next;
+		while (secondPtr != nullptr) // Търсим срещане на текущия елемент в останалата част от списъка
+		{
+			nextHolder = secondPtr->next; // Пазим връзка към следващия елемент, за данея загубим след изтриването
+			if (firstPtr->data == secondPtr->data)
+			{
+				secondPtr->prev->next = secondPtr->next;
+				if (secondPtr->next != nullptr) 
+				{
+					secondPtr->next->prev = secondPtr->prev;
+				}
+				delete secondPtr;
+			}
+			secondPtr = nextHolder;
+		}
+		firstPtr = firstPtr->next;
+	}
 }
-
-// template<class T>
-// typename DLList<T>::Node* DLList<T>::merge();
-
-// template<class T>
-// typename DLList<T>::Node* DLList<T>::mergeSort();
 
 
 //from lectures

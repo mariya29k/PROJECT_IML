@@ -44,13 +44,17 @@ class DLList
     
     bool empty();
     int getSize();
+    T getFirst();
+    T getLast();
 
     //sort
     void reverse();
-    Node* split();
-    Node* splitAt(int);
-    Node* merge();
-    Node* mergeSort();
+    void split(Node* head, Node** a, Node** b);
+    //Node* splitAt(int);
+    Node* merge(Node* ls1, Node* ls2);
+    void mergeSort(Node** head);
+    //from seminar
+    void removeOccurences();
     
 
     //************
