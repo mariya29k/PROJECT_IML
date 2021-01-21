@@ -7,7 +7,6 @@ class Operations
     private:
     Tag tag;
     DLList<double> list;
-    DLList<double> newList;
 
 
     public:
@@ -17,7 +16,6 @@ class Operations
     
     double add (double first, double second);
     double multiply (double first, double second);
-    double average();
     // void ascending(const DLList<double>&);
     // void descending(const DLList<double>&);
 
