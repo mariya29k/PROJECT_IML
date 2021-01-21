@@ -44,15 +44,17 @@ class DLList
     
     bool empty();
     int getSize();
+    Node *&getFirstPointer();
     T getFirst();
     T getLast();
 
     //sort
     void reverse();
-    void split(Node* head, Node** a, Node** b);
+    Node* split(Node* head);
     //Node* splitAt(int);
     Node* merge(Node* ls1, Node* ls2);
-    void mergeSort(Node** head);
+    Node* mergeSort(Node* head);
+    void mergeSortList(DLList<T> &list);
     //from seminar
     void removeOccurences();
     

@@ -39,12 +39,12 @@ void DLList<T>::copy(const DLList<T>& other)
     this->size = other.size;
 
     //we copy the pointer to the first element of the other list
-    Node* holder = newNode(other.first->data);
+    Node* holder = new Node(other.first->data);
     this->first = holder;
 
     //create new pointers used to go through both lists
     Node* otherCopy = other.first; //list we want to copy
-    Node* thisCopy = this->fist;    //current list
+    Node* thisCopy = this->first;    //current list
     Node* newNode = nullptr;
 
     while (otherCopy->next != nullptr) //going through the list
@@ -149,6 +149,12 @@ int DLList<T>::getSize()
 }
 
 template<class T>
+typename DLList<T>::Node*& DLList<T>::getFirstPointer()
+{
+    return this->first;
+}
+
+template<class T>
 T DLList<T>::getFirst()
 {
     Node* current = first;
@@ -198,24 +204,24 @@ void DLList<T>::reverse()
     }
 }
 
-//The functions split, merge and mergeSort didn't work successfully when given
-//a parameter DLList<T> -- this idea is taken from the internet
-// template<class T>
-// void DLList<T>::split(Node* head, Node** a, Node** b)
-// {
-//     Node* slowPtr = head; //slowPtr ++ once
-//     Node* fastPtr = head; //fastPtr ++ twice
+// The functions split, merge and mergeSort didn't work successfully when given
+// a parameter DLList<T> -- this idea is taken from the internet
+template<class T>
+typename DLList<T>::Node* DLList<T>::split(Node* first)
+{
+    Node* slowPtr = first; //slowPtr ++ once
+    Node* fastPtr = first; //fastPtr ++ twice
 
-//     while (fastPtr->next != nullptr && fastPtr->next->next != nullptr)
-// 	{
-// 		fastPtr = fastPtr->next->next;
-// 		slowPtr = slowPtr->next;
-// 	}
+    while (fastPtr->next != nullptr && fastPtr->next->next != nullptr)
+	{
+		fastPtr = fastPtr->next->next;
+		slowPtr = slowPtr->next;
+	}
 
-//     //Node* temp?
-// 	b = slowPtr->next;
-// 	slowPtr->next = nullptr;
-// }
+	Node* temp = slowPtr->next;
+	slowPtr->next = nullptr;
+	return temp;
+}
 
 // template<class T>
 // typename DLList<T>::Node* DLList<T>::splitAt(int n)
@@ -236,56 +242,66 @@ void DLList<T>::reverse()
 //     return helper;
 // }
 
-// template<class T>
-// typename DLList<T>::Node* DLList<T>::merge(Node* list1, Node* list2)
-// {
-//     //If a list is empty
-//     if(list1 == nullptr)
-//     {
-//         return list2;
-//     }
+template<class T>
+typename DLList<T>::Node* DLList<T>::merge(Node* firstList, Node* secondList)
+{
+    
+	if (firstList == nullptr)
+	{
+		return secondList;
+	}
 
-//     if(list2 == nullptr)
-//     {
-//         return list1;
-//     }
+	if (secondList == nullptr)
+	{
+		return firstList;
+	}
 
-//     //Recursively chosing the smallest and merge
-//     if(a->data <= b<-data)
-//     {
-//         a->next = merge(a->next,b);
-//         a->next->prev = a;
-//         a->prev = nullptr;
-//         return a
-//     } else
-//     {
-//         b->next = merge(b->next, a);
-//         b->next->prev = b;
-//         b->prev = nullptr;
-//         return b;
-//     }    
-// }
-// //i guess in order to avoid .... use **
-// template<class T>
-// void DLList<T>::mergeSort(Node** head)
-// {
-//     if (*head == nullptr || (*head)->next == nullptr)
-//     {  
-//         throw std::out_of_range ("List is empty.");
-//     }
+	
+	if (firstList->data < secondList->data)
+	{
+		firstList->next = merge(firstList->next, secondList);
+		firstList->next->prev = firstList;
+		firstList->prev = nullptr;
+		return firstList;
+	}
+	else
+	{
+		secondList->next = merge(firstList, secondList->next);
+		secondList->next->prev = secondList;
+		secondList->prev = nullptr;
+		return secondList;
+	}
 
-//     //splits the list1 and list2 into sublists
-//     Node *list1 = head, 
-//         *list2 = nullptr;
-//     split(*head, &list1, &list2);
-  
-//     // Recur for left and right halves  
-//     mergeSort(&list1);  
-//     mergeSort(&list2);  
-  
-//     // Merge the two sorted halves  
-//     head = merge(list1, list2); 
-// }
+}
+//i guess in order to avoid .... use **
+template<class T>
+typename DLList<T>::Node* DLList<T>::mergeSort(Node* head)
+{
+    Node* current = head;
+
+	if (head == nullptr || head->next == nullptr)
+	{
+		return head;
+	}
+
+    Node *second = split(head); 
+
+    
+    head = mergeSort(head); 
+    second = mergeSort(second);
+
+    current = current->next;
+
+	return merge(head, second);
+    
+}
+
+template<class T>
+void DLList<T>::mergeSortList(DLList<T> &list)
+{
+    list.first = mergeSort(list.first);
+}
+
 
 template<class T>
 void DLList<T>::removeOccurences()
