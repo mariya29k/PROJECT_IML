@@ -1,15 +1,19 @@
 #include <iostream>
 #include "operations.h"
 
-void Operations::MAP()
+DLList<double> Operations::getResult()
 {
-    double argument = tag.getArgument();
+    return list;
+}
+
+void Operations::MAP(int x)
+{
 
     if (tag.getExpression() == "INC") //+
     {
         for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
         {
-            add(argument, *i);
+            add(x, *i);
         }
     }
     
@@ -17,7 +21,7 @@ void Operations::MAP()
     {
         for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
         {
-            multiply(argument, *i);
+            multiply(x, *i);
         }
     }
 }
@@ -25,7 +29,6 @@ void Operations::MAP()
 void Operations::AGG()
 {
     int helper;
-    //kude zapisvame rezultata?
 
     if(tag.getExpression() == "SUM") 
     {
@@ -83,7 +86,8 @@ void Operations::SRT()
 
     if (tag.getExpression() == "ORD")
     {   
-        //order(argument); 
+        list.mergeSortList(list); 
+        //we will check the argument in the parser and if it is DSC, we will reverse it
     }
 
     if (tag.getExpression() == "SLC")
@@ -106,18 +110,18 @@ double Operations::multiply (double first, double second)
     return first * second;
 }
 
-void Operations::order(std::string argument)
-{
-    //sorts the list in ascending order
-    list.mergeSortList(list);
+// void Operations::order(std::string argument)
+// {
+//     //sorts the list in ascending order
+//     list.mergeSortList(list);
 
-    if (argument == "DSC")
-    {
-        //reverses the already sorted in asc order list 
-        //so we get the list sorted in descending order
-        list.reverse();
-    }
+//     if (argument == "DSC")
+//     {
+//         //reverses the already sorted in asc order list 
+//         //so we get the list sorted in descending order
+//         list.reverse();
+//     }
 
-}
+// }
 
  
