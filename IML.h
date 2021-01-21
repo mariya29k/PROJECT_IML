@@ -22,14 +22,13 @@ class IML
 {
     private:
     std::istream input;
-    //it should be a DLList?
-    Tag tag;
+    DLList<Tag> tag;
 
     //******************************************************
 
     bool isValid(const Tag& tag);
     //expression - Tag or String?
-    void readInput(const std::string& fileName, std::string& expression);
+    void readInput(const std::string& fileName);
 
     //<
     bool isOpening(char c);
@@ -39,7 +38,7 @@ class IML
     std::string getKind(const Tag& tag);
     //expression
     std::string getExpession(const Tag& tag);
-    //get argument
+    //get argument and if it is a MAP function we convert it to an integer
     std::string getArgument(const Tag& tag);
     //get numbers and save in a list
     void getNumbers(const Tag& tag);

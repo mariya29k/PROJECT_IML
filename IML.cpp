@@ -8,7 +8,7 @@ bool IML::isValid(const Tag& tag)
 void IML::readInput(const std::string& fileName, std::string& expression)
 {
     std::ifstream input;
-    //ios::in-> read from file
+    std::string writeTag; //saving the tags in the DLList
 
     if(input.is_open())
     {
@@ -17,7 +17,7 @@ void IML::readInput(const std::string& fileName, std::string& expression)
     else 
     {   
         std::cout << "File is now opened! " << std::endl;
-        input.open(fileName, std::ios::in);
+        input.open(fileName, std::ios::in); //ios::in-> read from file
     }
     
     //then we check for errors
@@ -65,8 +65,23 @@ void IML::getNumbers(const Tag& tag)
 
 void IML::Operation(const Tag& tag)
 {
+    if (getKind(tag) == "MAP")
+    {
+        //
+    }
 
+    if(getKind(tag) == "AGG")
+    {
+        //AGG();
+    }
+
+    if(getKind(tag) == "SRT")
+    {
+        //SRT();
+    }
 }
+
+
 
 
 void IML::writeOuput(const std::string& fileName, const std::string &expression)
@@ -87,7 +102,7 @@ void IML::writeOuput(const std::string& fileName, const std::string &expression)
     } 
     else
     {
-        output << expression;
+        output << tag;
         std::cout << "Info is saved! " << std::endl;
     }
 
