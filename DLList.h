@@ -50,7 +50,8 @@ class DLList
     //sort
     void reverse();
     Node* split(Node* head);
-    void splitAt(int);
+    Node* splitAt(int n, Node* head);
+    void splitAtList(DLList<T>&, int n);
     Node* merge(Node* ls1, Node* ls2);
     Node* mergeSort(Node* head);
     void mergeSortList(DLList<T> &list);

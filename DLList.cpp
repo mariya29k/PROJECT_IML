@@ -216,23 +216,31 @@ typename DLList<T>::Node* DLList<T>::split(Node* first)
 	return temp;
 }
 
-// template<class T>
-// void DLList<T>::splitAt(int n)
-// {
-//     Node* current = first;
-//     Node* helper;
-//     int count = 0;
-//     //DLList<T> newList;
+template<class T>
+typename DLList<T>::Node* DLList<T>::splitAt(int n, Node* head)
+{
+    Node* current = head;
+    Node* helper = nullptr;
+    int count = 0;
+    //DLList<T> newList;
 
-//     while(current != nullptr || count < n-1 )
-//     {
-//         count++;
-//         helper = current;
-//         delete current;
-//         helper = current->next;
-//     }
+    while(current != nullptr)
+    {
+        if(count == n)
+        {
+            helper = current;
+        }
+        current = current->next;
+        count++;
+    }
+    return helper;
+}
 
-// }
+template<class T>
+void DLList<T>::splitAtList(DLList<T> &list, int n)
+{
+    list.first = splitAt(n, list.first);
+}
 
 template<class T>
 typename DLList<T>::Node* DLList<T>::merge(Node* firstList, Node* secondList)
@@ -409,7 +417,7 @@ bool DLList<T>::deleteAt (const Iterator &it)
         save = first;
         first = first->next;
         delete save;
-        
+
         return true;
     }
 

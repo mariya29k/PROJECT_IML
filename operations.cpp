@@ -92,7 +92,7 @@ void Operations::SRT()
 
     if (tag.getExpression() == "SLC")
     {
-        //splitAt
+        //list.splitAtList(list,)
     }
 
     if (tag.getExpression() == "DST")
