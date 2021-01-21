@@ -149,12 +149,6 @@ int DLList<T>::getSize()
 }
 
 template<class T>
-typename DLList<T>::Node*& DLList<T>::getFirstPointer()
-{
-    return this->first;
-}
-
-template<class T>
 T DLList<T>::getFirst()
 {
     Node* current = first;
@@ -204,8 +198,7 @@ void DLList<T>::reverse()
     }
 }
 
-// The functions split, merge and mergeSort didn't work successfully when given
-// a parameter DLList<T> -- this idea is taken from the internet
+
 template<class T>
 typename DLList<T>::Node* DLList<T>::split(Node* first)
 {
@@ -224,28 +217,27 @@ typename DLList<T>::Node* DLList<T>::split(Node* first)
 }
 
 // template<class T>
-// typename DLList<T>::Node* DLList<T>::splitAt(int n)
+// void DLList<T>::splitAt(int n)
 // {
-//     int count = 1;
 //     Node* current = first;
 //     Node* helper;
-    
-//     while(current != nullptr)
+//     int count = 0;
+//     //DLList<T> newList;
+
+//     while(current != nullptr || count < n-1 )
 //     {
-//         if(count != n-1)
-//         {
-//             helper = current;
-//             delete current;
-//             helper = current->next;
-//         }
+//         count++;
+//         helper = current;
+//         delete current;
+//         helper = current->next;
 //     }
-//     return helper;
+
 // }
 
 template<class T>
 typename DLList<T>::Node* DLList<T>::merge(Node* firstList, Node* secondList)
 {
-    
+    //If empty cases
 	if (firstList == nullptr)
 	{
 		return secondList;
@@ -256,7 +248,7 @@ typename DLList<T>::Node* DLList<T>::merge(Node* firstList, Node* secondList)
 		return firstList;
 	}
 
-	
+	//Using recurssion we sort the elements in ascending order
 	if (firstList->data < secondList->data)
 	{
 		firstList->next = merge(firstList->next, secondList);
@@ -296,6 +288,7 @@ typename DLList<T>::Node* DLList<T>::mergeSort(Node* head)
     
 }
 
+//Need a function that uses a list as a parameter
 template<class T>
 void DLList<T>::mergeSortList(DLList<T> &list)
 {
@@ -310,12 +303,13 @@ void DLList<T>::removeOccurences()
 	Node* secondPtr = nullptr;
 	Node* nextHolder = nullptr;
 
+    //going through the list
 	while (firstPtr != nullptr && firstPtr->next != nullptr)
 	{
 		secondPtr = firstPtr->next;
-		while (secondPtr != nullptr) // Търсим срещане на текущия елемент в останалата част от списъка
+		while (secondPtr != nullptr) //Searching for an occurence in the rest of the list
 		{
-			nextHolder = secondPtr->next; // Пазим връзка към следващия елемент, за данея загубим след изтриването
+			nextHolder = secondPtr->next; // Saves the connection to the next element
 			if (firstPtr->data == secondPtr->data)
 			{
 				secondPtr->prev->next = secondPtr->next;
@@ -401,7 +395,7 @@ typename DLList<T>::Iterator DLList<T>::end()
 template<class T>
 bool DLList<T>::deleteAt (const Iterator &it)
 {
-    typename DLList<T>::Box *crr = it.current,
+    typename DLList<T>::Node *crr = it.current,
                                     *save;
 
     if (crr == nullptr) 
@@ -415,12 +409,7 @@ bool DLList<T>::deleteAt (const Iterator &it)
         save = first;
         first = first->next;
         delete save;
-
-        // if (first == nullptr) //this means the list had only one element
-        // {
-        //     last = nullptr;
-        // }
-
+        
         return true;
     }
 
@@ -432,10 +421,6 @@ bool DLList<T>::deleteAt (const Iterator &it)
         crr->next->prev = crr->prev;
     
     }
-    //  else
-    // {
-    //     last = crr->prev;
-    // }
     delete save;
 
     return true;

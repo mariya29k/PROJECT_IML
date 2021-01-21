@@ -13,7 +13,7 @@ class Tag
     std::string kind;
     std::string expression;
 
-    //two of the type of tags include an argument
+    //two of the kinds of tags include an argument
     bool argument;
 
     public:
