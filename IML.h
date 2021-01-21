@@ -1,7 +1,9 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include "DLList.h"
 #include "tag.h"
+#include "operations.h"
 
 //need:
 //a file we read the tags from (input file)
