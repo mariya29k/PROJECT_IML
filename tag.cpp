@@ -47,10 +47,10 @@ std::string Tag::getExpression() const
     return this->expression;
 }
 
-// bool Tag::hasArgument() const
-// {
-//     return this->argument;
-// }
+bool Tag::hasArgument() const
+{
+    return this->argument;
+}
 
 // int Tag::getArgument() const //moje s edna func, no shte tr func ot string kum number
 // {
