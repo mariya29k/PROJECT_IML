@@ -10,18 +10,12 @@ class Operations
 
 
     public:
-    DLList<double> getResult();
-
-    void MAP(int x); //since we need to check what the argument is in the parser, we use a variable
+    void MAP(); 
     void AGG();
     void SRT();
     
     double add (double first, double second);
     double multiply (double first, double second);
-    // void order(std::string argument);
-
-    // void ascending(const DLList<double>&);
-    // void descending(const DLList<double>&);
 
 };
 

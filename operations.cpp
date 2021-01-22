@@ -1,14 +1,10 @@
 #include <iostream>
 #include "operations.h"
 
-DLList<double> Operations::getResult()
-{
-    return list;
-}
 
-void Operations::MAP(int x)
+void Operations::MAP()
 {
-
+    int x = std::stoi(tag.getArgument()); //string to int
     if (tag.getExpression() == "INC") //+
     {
         for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
@@ -87,12 +83,18 @@ void Operations::SRT()
     if (tag.getExpression() == "ORD")
     {   
         list.mergeSortList(list); 
-        //we will check the argument in the parser and if it is DSC, we will reverse it
+
+        if(tag.getArgument() == "DSC")
+        {
+            //reverses the already sorted in asc order list 
+            //so we get the list sorted in descending order
+            list.reverse();
+        }
     }
 
     if (tag.getExpression() == "SLC")
     {
-        //list.splitAtList(list,)
+        list.splitAtList(list,stoi(tag.getArgument()));
     }
 
     if (tag.getExpression() == "DST")
@@ -110,18 +112,6 @@ double Operations::multiply (double first, double second)
     return first * second;
 }
 
-// void Operations::order(std::string argument)
-// {
-//     //sorts the list in ascending order
-//     list.mergeSortList(list);
 
-//     if (argument == "DSC")
-//     {
-//         //reverses the already sorted in asc order list 
-//         //so we get the list sorted in descending order
-//         list.reverse();
-//     }
-
-// }
 
  
