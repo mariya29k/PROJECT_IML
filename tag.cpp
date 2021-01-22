@@ -5,7 +5,7 @@ Tag::Tag()
 {
     kind = "";
     expression = "";
-    argument = false;
+    argument = "";
 }
 
 Tag::Tag(const Tag& other)
@@ -15,7 +15,7 @@ Tag::Tag(const Tag& other)
     this->argument = other.argument;
 }
 
-Tag::Tag(std::string _kind, std::string _expression, bool _argument)
+Tag::Tag(std::string _kind, std::string _expression, std::string _argument)
 {
     kind = _kind;
     expression = _expression;
@@ -49,21 +49,14 @@ std::string Tag::getExpression() const
 
 bool Tag::hasArgument() const
 {
-    return this->argument;
+    return this->argument != "";
 }
 
-// int Tag::getArgument() const //moje s edna func, no shte tr func ot string kum number
-// {
-//     if (hasArgument())
-//     {
-//         return this->argument;
-//     } else return 0;
-// }
 
-// std::string Tag::getArgumentString() const
-// {
-//     if(hasArgument())
-//     {
-//         return this->argument;
-//     }
-// }
+std::string Tag::getArgument() const
+{
+    if(hasArgument())
+    {
+        return this->argument;
+    }
+}

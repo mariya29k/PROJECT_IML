@@ -12,15 +12,16 @@ class Tag
 
     std::string kind;
     std::string expression;
+    std::string argument;
 
     //two of the kinds of tags include an argument
-    bool argument;
+    //bool hasArgument;
 
     public:
     //constructors
     Tag();
     Tag(const Tag& other);
-    Tag(std::string, std::string, bool);
+    Tag(std::string, std::string, std::string);
     //no need for a destructor since we dont work with dynamic memory
 
     //setters
@@ -31,9 +32,10 @@ class Tag
     //getters
     std::string getKind() const;
     std::string getExpression() const;
+
+    //bool has argument 1 -> getArgument ->
     bool hasArgument() const;
-    int getArgument() const;
-    std::string getArgumentString() const;
+    std::string getArgument() const;
 
 };
 
