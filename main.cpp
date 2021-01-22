@@ -1,15 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-// #include "DLList.h"
-// #include "DLList.cpp"
 #include "IML.h"
 
 
 int main()
 {
     IML parser;
-    parser.parser("test.txt","newfile.txt");
+    const std::string str = "<AGG-PRO>1 2 3</AGG-PRO>";
+    parser.parser("test.txt","newfdddile.txt");
+    // parser.readInput("test.txt");
+    //parser.writeOuput("test.txt", str);
+    //std::cout<<parser.Operation(str);
+
 
     return 0;
 }
