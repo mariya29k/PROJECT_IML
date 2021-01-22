@@ -21,11 +21,12 @@
 class IML
 {
     private:
-    std::istream input;
+    std::ifstream input;
+    std::ofstream translate;
     DLList<Tag> tag;
 
     //******************************************************
-
+    public:
     bool isValid(const Tag& tag);
     //expression - Tag or String?
     void readInput(const std::string& fileName);
