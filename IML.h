@@ -40,21 +40,17 @@ class IML
     //expression - Tag or String?
     void readInput(const std::string& fileName);
 
-    //<
-    bool isOpening(char c);
-    //>
-    bool isClosing(char c);
     //kind
-    std::string getKind(const std::string &tag);
+    std::string getKind(std::string tag);
     //expression
-    std::string getExpession(const std::string &tag);
+    std::string getExpession(std::string tag);
     //get argument and if it is a MAP function we convert it to an integer
-    std::string getArgument(const std::string &tag);
+    std::string getArgument(std::string tag);
     //get numbers and save in a list
-    DLList<double> getNumbers(std::string &tag);
+    DLList<double> getNumbers(std::string tag);
 
     //performs operation
-    DLList<double> Operation(std::string &tag);
+    DLList<double> Operation(std::string tag);
 
     //write in File
     void writeOuput(const std::string& fileName, const std::string &expression);

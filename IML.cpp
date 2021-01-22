@@ -3,9 +3,7 @@
 
 void IML::readInput(const std::string& fileName)
 {
-    std::ifstream input;
-    std::string writeTag; //saving the tags in the DLList
-    
+    std::ifstream input;    
 
     if(input.is_open())
     {
@@ -23,123 +21,108 @@ void IML::readInput(const std::string& fileName)
         std::cout << "Error opening file! " << std::endl;
         exit(1); //we close the program exit(0) - successfully executed, exit(1) - closed because of fail
     }
-
     
-    helper << input.rdbuf();    
-    input.close();
+
+    helper << input.rdbuf();
 
     while(std::getline(helper, holder)) //whitespaces
     {
-        helper >> holder;
+        //std::cout<< holder << std::endl;
         tag.pushback(holder);
-        writeOuput("translation.txt", holder);
     }
 
+    input.close();
 }
 
 
 
 bool IML::isValid(const std::string &tag)
 {
-    std::ifstream translation("translation.txt"); //change to string, because u will use other files bruhhh
-    if(input)
+    //couldve made a file with all possible tags and to check from there
+    if(tag.substr(0,1) == "<")
     {
-        helper << translation.rdbuf();
-        translation.close();
-
-
-
-        while(std::getline(helper, holder))
+        if((getKind(tag) == "MAP" && (getExpession(tag) == "INC" || getExpession(tag) == "MLT")) ||
+            (getKind(tag) == "AGG" && (getExpession(tag) == "SUM" || getExpession(tag) == "PRO" || getExpession(tag) == "AVG"  ||
+            getExpession(tag) == "FST" || getExpession(tag) == "LST" )) || 
+            (getKind(tag) == "SRT" && ( getExpession(tag) == "REV" ||
+            getExpession(tag) == "ORD" || getExpession(tag) == "SLC" || getExpession(tag) == "DST")))
         {
-            if(holder.substr(1,1) != "<") 
-                            return false;
-            // else if (holder.substr(1,3) )
-            
+            return true;
         }
-
+        else 
+        {
+            std::cout<<"Wrong input.\n";
+            return false;
+        }
     }
-    return false;
+    else return false;
 }
 
 
-// bool IML::isOpening(char c)
-// {
-//     return c == '<';
-// }
 
-// bool IML::isClosing(char c)
-// {
-//     return c == '>' || c == '/>';
-// }
-
-std::string IML::getKind(const std::string &tag)
+std::string IML::getKind(std::string tag)
 {
-    return holder.substr(1,3);
+
+    return tag.substr(1,3);
 }
 
-std::string IML::getExpession(const std::string &tag)
+std::string IML::getExpession(std::string tag)
 {
-    return holder.substr(5,3);
+    return tag.substr(5,3);
 }
 
-std::string IML::getArgument(const std::string &tag)
+std::string IML::getArgument(std::string tag)
 {
-    if(holder.substr(1,3) == "MAP" || holder.substr(1,3) == "SLC")
-    {
-        //needs validation in case of numbers bigger than 9
-        //if (holder.substr(11,1) != '"') return holder.substr(10,2);
-        return holder.substr(10,1);
-    }
-
-    if(holder.substr(5,3) == "ASC") return "ASC";
-
-    if(holder.substr(5,3) == "DSC") return "DSC";
-
-    return nullptr;
+    //finds the first " and second " and returns the value between them
+    
+    size_t size = tag.find("\"");
+    std::string tag_substr = tag.substr(size+1); //from this point onward
+    size = tag_substr.find("\"");
+    tag_substr = tag_substr.substr(0,size);  //between
+    
+    return tag_substr;
 }
 
-DLList<double> IML::getNumbers(std::string &tag)
+DLList<double> IML::getNumbers(std::string tag)
 {
     DLList<double> numbers;
-    double number;    
+    double number;
+    std::stringstream helper;
+    std::string temp;
 
-    for(char& c : tag)
+    size_t size = tag.find(">");
+    std::string tag_substr = tag.substr(size+1); //finds the first > -> after it numbers
+    size = tag_substr.find("<");
+    tag_substr = tag_substr.substr(0,size); 
+    helper << tag_substr;
+    
+    while(!helper.eof())
     {
-        if(c != ' ' && c != '<' && (c > 'A' && c < 'Z') && c != '"' && c != '-' && c != '/' && c != '>')
-        {
-            number = c - '0';
-            numbers.pushback(number);
-        }
+        helper >> temp;
+        number = std::stod(temp);
+        numbers.pushback(number);
     }
     return numbers;
 }
 
 
-DLList<double> IML::Operation(std::string &tag)
+DLList<double> IML::Operation(std::string tag)
 {
-    int n = std::stoi(getArgument(tag)); //string to int
     std::string expression = getExpession(tag);
     std::string argument = getArgument(tag);
 
-    DLList<double> returnList; //because i dont know what to return here
-
-
     if (getKind(tag) == "MAP")
     {
-        return expressions.MAP(expression, n, getNumbers(tag));
+        return expressions.MAP(expression, argument, getNumbers(tag));
     }
-
-    if(getKind(tag) == "AGG")
+    else if(getKind(tag) == "AGG")
     {
         return expressions.AGG(expression, getNumbers(tag));
     }
-
-    if(getKind(tag) == "SRT")
+    else //(getKind(tag) == "SRT")
     {
-        return expressions.SRT(expression, argument, n, getNumbers(tag));
+        return expressions.SRT(expression, argument, getNumbers(tag));
     }
-
-    return returnList; //because i dont know what to return here
 }
 
 
@@ -177,16 +160,15 @@ void IML::parser(const std::string &input, const std::string &output)
     readInput(input);
     std::ofstream outFile(output);
     std::stringstream save;
+
     
     for(std::string i : tag)
-    { 
-            save << Operation(i)<<std::endl;
-            outFile << save.rdbuf();    
+    {   
+        save << Operation(i)<<std::endl;
     }
-    
+
+    outFile << save.rdbuf();    
     
 }
 
 
-//fix isValid
-//fix parser
