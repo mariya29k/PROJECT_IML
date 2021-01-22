@@ -2,15 +2,16 @@
 #include "Expressions.h"
 
 
-DLList<double> Expressions::MAP(std::string expression, int n, DLList<double> list)
+DLList<double> Expressions::MAP(std::string expression, std::string argument, DLList<double> list)
 {
-    DLList<double> helper;
+    DLList<double> helper;    
+    int n = stringToInt(argument);
 
     if (expression == "INC") //+
     {
         for(double i : list)
         {
-            helper.pushback((n, i));
+            helper.pushback(add(n, i));
         }
     }
     
@@ -50,23 +51,25 @@ DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
         for(double i : list)
         {
             //so we can recursively multiply all numbers
-            helper += multiply(helper, i); 
+            helper *= i; 
         }
 
         holder.pushback(helper);
     }
 
     if(expression == "AVG")
-    {
+    {   
+        int count = 0;
         helper = 0.0;
         
         for(double i : list)
         {
-            helper += add(helper, i); 
+            helper += i;
+            count++; 
         }
 
         //AVERAGE
-        helper /= list.getSize();
+        helper /=count;
         holder.pushback(helper);
     }
 
@@ -85,7 +88,7 @@ DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
     return holder;
 }
 
-DLList<double> Expressions::SRT(std::string expression, std::string argument, int n, DLList<double> list)
+DLList<double> Expressions::SRT(std::string expression, std::string argument, DLList<double> list)
 {
     DLList<double> holder;
 
@@ -116,6 +119,7 @@ DLList<double> Expressions::SRT(std::string expression, std::string argument, in
 
     if (expression == "SLC")
     {
+        int n = stringToInt(argument);
         list.splitAtList(list,n);
         holder = list;
     }
@@ -136,6 +140,11 @@ double Expressions::add (double first, double second)
 double Expressions::multiply (double first, double second)
 {
     return first * second;
+}
+
+int Expressions::stringToInt(std::string argument)
+{
+    return std::stoi(argument);
 }
 
 

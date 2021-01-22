@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "DLList.h"
 #include "DLList.cpp"
 
@@ -6,12 +7,13 @@
 class Expressions
 {
     public:
-    DLList<double> MAP(std::string expression, int n, DLList<double> list); 
+    DLList<double> MAP(std::string expression, std::string argument, DLList<double> list); 
     DLList<double> AGG(std::string expression, DLList<double> list);
-    DLList<double> SRT(std::string expression, std::string argument, int n, DLList<double> list);
+    DLList<double> SRT(std::string expression, std::string argument, DLList<double> list);
     
     double add (double first, double second);
     double multiply (double first, double second);
+    int stringToInt(std::string);
 };
 
 /*
@@ -30,6 +32,6 @@ class Expressions
         - ORD
             - ASC 2 3 1 => 1 2 3
             - DSC 2 3 1 => 3 2 1
-            - SLC '1' 3 2 1 => 2 1
-            - DST 2 3 2 2 1 3 4 => 1 4
+        - SLC '1' 3 2 1 => 2 1
+        - DST 2 3 2 2 1 3 4 => 1 4
 */
