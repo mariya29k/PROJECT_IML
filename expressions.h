@@ -4,15 +4,10 @@
 
 class Expressions
 {
-    private:
-    Tag tag;
-    DLList<double> list;
-
-
     public:
-    void MAP(std::string expression, int n); 
-    void AGG(std::string expression);
-    void SRT(std::string expression, std::string argument, int n);
+    DLList<double> MAP(std::string expression, int n, DLList<double> list); 
+    DLList<double> AGG(std::string expression, DLList<double> list);
+    DLList<double> SRT(std::string expression, std::string argument, int n, DLList<double> list);
     
     double add (double first, double second);
     double multiply (double first, double second);

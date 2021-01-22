@@ -2,105 +2,136 @@
 #include "Expressions.h"
 
 
-void Expressions::MAP(std::string expression, int n)
+DLList<double> Expressions::MAP(std::string expression, int n, DLList<double> list)
 {
-    
+    DLList<double> helper;
+
     if (expression == "INC") //+
     {
-        for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
+        for(double i : list)
         {
-            add(n, *i);
+            helper.pushback((n, i));
         }
+        return helper;
     }
     
     if (expression == "MLT") //*
     {
-        for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
+        for(double i : list)
         {
-            multiply(n, *i);
+            helper.pushback(multiply(n, i));
         }
+        return helper;
     }
+
+    return;
 }
 
-void Expressions::AGG(std::string expression)
+DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
 {
-    int helper;
+    DLList<double> holder;
+    double helper;
 
     if(expression == "SUM") 
     {
-        helper = 0;
+        helper = 0.0;
         
-        for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
+        for(double i : list)
         {
             //so we can recursively add all numbers
-            helper += add(helper, *i); 
+            helper += add(helper, i); 
         }
+
+        holder.pushback(helper);
+        return holder;
     }
 
     if(expression == "PRO")
     {
-        helper = 1;
+        helper = 1.0;
         
-        for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
+        for(double i : list)
         {
             //so we can recursively multiply all numbers
-            helper += multiply(helper, *i); 
+            helper += multiply(helper, i); 
         }
+
+        holder.pushback(helper);
+        return holder;
     }
 
     if(expression == "AVG")
     {
-        helper = 0;
+        helper = 0.0;
         
-        for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
+        for(double i : list)
         {
-            helper += add(helper, *i); 
+            helper += add(helper, i); 
         }
 
         //AVERAGE
         helper /= list.getSize();
+        holder.pushback(helper);
+        return holder;
     }
 
     if(expression == "FST")
     {
-        list.getFirst();
+        helper = list.getFirst();
+        holder.pushback(helper);
+        return holder;        
     }
 
     if(expression == "LST")
     {
-        list.getLast();
+        helper = list.getLast();
+        holder.pushback(helper);
+        return holder;  
     }
 
+    return;
 }
 
-void Expressions::SRT(std::string expression, std::string argument, int n)
+DLList<double> Expressions::SRT(std::string expression, std::string argument, int n, DLList<double> list)
 {
     if (expression == "REV")
     {
         list.reverse();
+        return list;
     }
 
     if (expression == "ORD")
     {   
         list.mergeSortList(list); 
 
+        if(argument == "ASC")
+        {
+            return list;
+        }
+
         if(argument == "DSC")
         {
             //reverses the already sorted in asc order list 
             //so we get the list sorted in descending order
             list.reverse();
+            return list;
         }
+        
     }
 
     if (expression == "SLC")
     {
         list.splitAtList(list,n);
+        return list;
     }
 
     if (expression == "DST")
     {
         list.removeOccurences();
+        return list;
     }
+
+    return;
 }
 
 double Expressions::add (double first, double second)
