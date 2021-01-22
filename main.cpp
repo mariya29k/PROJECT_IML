@@ -6,13 +6,27 @@
 
 int main()
 {
-    IML parser;
-    const std::string str = "<AGG-PRO>1 2 3</AGG-PRO>";
-    parser.parser("test.txt","newfdddile.txt");
-    // parser.readInput("test.txt");
-    //parser.writeOuput("test.txt", str);
-    //std::cout<<parser.Operation(str);
+    IML parser1;
+    std::string input;
+    std::string output;
 
+    std::cout << "Enter name of input file.\n";
+    std::cin >> input;
+    std::cout << "Enter name of output file.\n";
+    std::cin >> output;
+    parser1.parser(input, output);
+
+    IML parser2;
+    parser2.parser("test.txt","newfile.txt");
+
+
+
+    //parser.readInput("test.txt");
+
+
+    // //test Operation func
+    // const std::string str = "<AGG-PRO>1 2 3</AGG-PRO>";
+    // std::cout<<parser.Operation(str);
 
     return 0;
 }
