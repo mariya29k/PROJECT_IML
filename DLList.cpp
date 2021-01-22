@@ -256,7 +256,7 @@ typename DLList<T>::Node* DLList<T>::merge(Node* firstList, Node* secondList)
 		return firstList;
 	}
 
-	//Using recurssion we sort the elements in ascending order
+	//Using recursion we sort the elements in ascending order
 	if (firstList->data < secondList->data)
 	{
 		firstList->next = merge(firstList->next, secondList);
@@ -273,7 +273,7 @@ typename DLList<T>::Node* DLList<T>::merge(Node* firstList, Node* secondList)
 	}
 
 }
-//i guess in order to avoid .... use **
+
 template<class T>
 typename DLList<T>::Node* DLList<T>::mergeSort(Node* head)
 {
