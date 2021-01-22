@@ -1,9 +1,10 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include "DLList.h"
 #include "tag.h"
-#include "operations.h"
+#include "expressions.h"
 
 //need:
 //a file we read the tags from (input file)
@@ -14,7 +15,7 @@
 //-reading tag function - opening <, determine kind, determine expression,
 //                          *determine arguments, saving the numbers we are working with,
 //                           closing >
-//-function that calls the needed operations, 
+//-function that calls the needed expressions, 
 //-function that saves the final result
 //-function that writes the result in an output file
 
@@ -22,12 +23,20 @@ class IML
 {
     private:
     std::ifstream input;
-    std::ofstream translate;
-    DLList<Tag> tag;
+    std::ofstream test;
+    DLList<std::string> tag;
+
+    //using sstream to save data in the memory
+    std::stringstream helper; 
+    std::string holder;
+    
+    Expressions expressions;
+
+    DLList<double> numbers;
 
     //******************************************************
     public:
-    bool isValid(const Tag& tag);
+    bool isValid(DLList<std::string>);
     //expression - Tag or String?
     void readInput(const std::string& fileName);
 
@@ -36,16 +45,16 @@ class IML
     //>
     bool isClosing(char c);
     //kind
-    std::string getKind(const Tag& tag);
+    std::string getKind(const std::string &tag);
     //expression
-    std::string getExpession(const Tag& tag);
+    std::string getExpession(const std::string &tag);
     //get argument and if it is a MAP function we convert it to an integer
-    std::string getArgument(const Tag& tag);
+    std::string getArgument(const std::string &tag);
     //get numbers and save in a list
-    void getNumbers(const Tag& tag);
+    DLList<double> getNumbers(std::string &tag);
 
     //performs operation
-    void Operation(const Tag& tag);
+    void Operation(const std::string &tag);
 
     //write in File
     void writeOuput(const std::string& fileName, const std::string &expression);
