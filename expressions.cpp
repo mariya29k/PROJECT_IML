@@ -2,31 +2,31 @@
 #include "Expressions.h"
 
 
-void Expressions::MAP()
+void Expressions::MAP(std::string expression, int n)
 {
-    int x = std::stoi(tag.getArgument()); //string to int
-    if (tag.getExpression() == "INC") //+
+    
+    if (expression == "INC") //+
     {
         for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
         {
-            add(x, *i);
+            add(n, *i);
         }
     }
     
-    if (tag.getExpression() == "MLT") //*
+    if (expression == "MLT") //*
     {
         for(DLList<double>::Iterator i = list.begin(); i !=  list.end(); i++) // for(int i : list)
         {
-            multiply(x, *i);
+            multiply(n, *i);
         }
     }
 }
 
-void Expressions::AGG()
+void Expressions::AGG(std::string expression)
 {
     int helper;
 
-    if(tag.getExpression() == "SUM") 
+    if(expression == "SUM") 
     {
         helper = 0;
         
@@ -37,7 +37,7 @@ void Expressions::AGG()
         }
     }
 
-    if(tag.getExpression() == "PRO")
+    if(expression == "PRO")
     {
         helper = 1;
         
@@ -48,7 +48,7 @@ void Expressions::AGG()
         }
     }
 
-    if(tag.getExpression() == "AVG")
+    if(expression == "AVG")
     {
         helper = 0;
         
@@ -61,30 +61,30 @@ void Expressions::AGG()
         helper /= list.getSize();
     }
 
-    if(tag.getExpression() == "FST")
+    if(expression == "FST")
     {
         list.getFirst();
     }
 
-    if(tag.getExpression() == "LST")
+    if(expression == "LST")
     {
         list.getLast();
     }
 
 }
 
-void Expressions::SRT()
+void Expressions::SRT(std::string expression, std::string argument, int n)
 {
-    if (tag.getExpression() == "REV")
+    if (expression == "REV")
     {
         list.reverse();
     }
 
-    if (tag.getExpression() == "ORD")
+    if (expression == "ORD")
     {   
         list.mergeSortList(list); 
 
-        if(tag.getArgument() == "DSC")
+        if(argument == "DSC")
         {
             //reverses the already sorted in asc order list 
             //so we get the list sorted in descending order
@@ -92,12 +92,12 @@ void Expressions::SRT()
         }
     }
 
-    if (tag.getExpression() == "SLC")
+    if (expression == "SLC")
     {
-        list.splitAtList(list,stoi(tag.getArgument()));
+        list.splitAtList(list,n);
     }
 
-    if (tag.getExpression() == "DST")
+    if (expression == "DST")
     {
         list.removeOccurences();
     }

@@ -10,9 +10,9 @@ class Expressions
 
 
     public:
-    void MAP(); 
-    void AGG();
-    void SRT();
+    void MAP(std::string expression, int n); 
+    void AGG(std::string expression);
+    void SRT(std::string expression, std::string argument, int n);
     
     double add (double first, double second);
     double multiply (double first, double second);
