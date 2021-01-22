@@ -81,4 +81,8 @@ class DLList
     Iterator end();
 
     bool deleteAt(const Iterator&);
+
+    template<class E>
+    friend std::ostream& operator<< (std::ostream&,const DLList<E>&);
 };
+

@@ -433,3 +433,15 @@ bool DLList<T>::deleteAt (const Iterator &it)
 
     return true;
 }
+
+template<class E>
+std::ostream& operator << (std::ostream &out,const DLList<E> &list)
+{
+    typename DLList<E>::Node *crr = list.first;
+    while (crr != nullptr)
+    {
+        out << crr->data << " ";
+        crr = crr->next;
+    }
+    return out;
+}
