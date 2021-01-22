@@ -12,7 +12,6 @@ DLList<double> Expressions::MAP(std::string expression, int n, DLList<double> li
         {
             helper.pushback((n, i));
         }
-        return helper;
     }
     
     if (expression == "MLT") //*
@@ -21,10 +20,9 @@ DLList<double> Expressions::MAP(std::string expression, int n, DLList<double> li
         {
             helper.pushback(multiply(n, i));
         }
-        return helper;
     }
 
-    return;
+    return helper;
 }
 
 DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
@@ -43,7 +41,6 @@ DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
         }
 
         holder.pushback(helper);
-        return holder;
     }
 
     if(expression == "PRO")
@@ -57,7 +54,6 @@ DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
         }
 
         holder.pushback(helper);
-        return holder;
     }
 
     if(expression == "AVG")
@@ -72,32 +68,31 @@ DLList<double> Expressions::AGG(std::string expression, DLList<double> list)
         //AVERAGE
         helper /= list.getSize();
         holder.pushback(helper);
-        return holder;
     }
 
     if(expression == "FST")
     {
         helper = list.getFirst();
-        holder.pushback(helper);
-        return holder;        
+        holder.pushback(helper);      
     }
 
     if(expression == "LST")
     {
         helper = list.getLast();
-        holder.pushback(helper);
-        return holder;  
+        holder.pushback(helper); 
     }
 
-    return;
+    return holder;
 }
 
 DLList<double> Expressions::SRT(std::string expression, std::string argument, int n, DLList<double> list)
 {
+    DLList<double> holder;
+
     if (expression == "REV")
     {
-        list.reverse();
-        return list;
+        list.reverse(); 
+        holder = list;       
     }
 
     if (expression == "ORD")
@@ -106,7 +101,7 @@ DLList<double> Expressions::SRT(std::string expression, std::string argument, in
 
         if(argument == "ASC")
         {
-            return list;
+            holder = list;
         }
 
         if(argument == "DSC")
@@ -114,24 +109,24 @@ DLList<double> Expressions::SRT(std::string expression, std::string argument, in
             //reverses the already sorted in asc order list 
             //so we get the list sorted in descending order
             list.reverse();
-            return list;
+            holder = list;
         }
-        
+     
     }
 
     if (expression == "SLC")
     {
         list.splitAtList(list,n);
-        return list;
+        holder = list;
     }
 
     if (expression == "DST")
     {
         list.removeOccurences();
-        return list;
+        holder = list;
     }
 
-    return;
+    return holder;
 }
 
 double Expressions::add (double first, double second)

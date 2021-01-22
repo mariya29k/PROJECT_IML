@@ -110,7 +110,6 @@ DLList<double> IML::getNumbers(std::string &tag)
             number = c - '0';
             numbers.pushback(number);
         }
-        return 0;
     }
     return numbers;
 }
@@ -121,6 +120,8 @@ DLList<double> IML::Operation(std::string &tag)
     int n = std::stoi(getArgument(tag)); //string to int
     std::string expression = getExpession(tag);
     std::string argument = getArgument(tag);
+
+    DLList<double> returnList; //because i dont know what to return here
 
 
     if (getKind(tag) == "MAP")
@@ -137,6 +138,8 @@ DLList<double> IML::Operation(std::string &tag)
     {
         return expressions.SRT(expression, argument, n, getNumbers(tag));
     }
+
+    return returnList; //because i dont know what to return here
 }
 
 
@@ -172,12 +175,16 @@ void IML::writeOuput(const std::string& fileName, const std::string &expression)
 void IML::parser(const std::string &input, const std::string &output)
 {
     readInput(input);
+    std::ofstream outFile(output);
     std::stringstream save;
     
     for(std::string i : tag)
     { 
-            save << Operation(i);    
+            save << Operation(i)<<std::endl;
+            outFile << save.rdbuf();    
     }
+    
+    
 }
 
 
