@@ -39,7 +39,7 @@ void IML::readInput(const std::string& fileName)
 
 
 
-bool IML::isValid(DLList<std::string> imlTags)
+bool IML::isValid(const std::string &tag)
 {
     std::ifstream translation("translation.txt"); //change to string, because u will use other files bruhhh
     if(input)
@@ -95,12 +95,13 @@ std::string IML::getArgument(const std::string &tag)
 
     if(holder.substr(5,3) == "DSC") return "DSC";
 
+    return nullptr;
 }
 
 DLList<double> IML::getNumbers(std::string &tag)
 {
-    double number;
-    
+    DLList<double> numbers;
+    double number;    
 
     for(char& c : tag)
     {
@@ -109,11 +110,13 @@ DLList<double> IML::getNumbers(std::string &tag)
             number = c - '0';
             numbers.pushback(number);
         }
+        return 0;
     }
+    return numbers;
 }
 
 
-void IML::Operation(const std::string &tag)
+DLList<double> IML::Operation(std::string &tag)
 {
     int n = std::stoi(getArgument(tag)); //string to int
     std::string expression = getExpession(tag);
@@ -122,17 +125,17 @@ void IML::Operation(const std::string &tag)
 
     if (getKind(tag) == "MAP")
     {
-        expressions.MAP(expression, n);
+        return expressions.MAP(expression, n, getNumbers(tag));
     }
 
     if(getKind(tag) == "AGG")
     {
-        expressions.AGG(expression);
+        return expressions.AGG(expression, getNumbers(tag));
     }
 
     if(getKind(tag) == "SRT")
     {
-        expressions.SRT(expression, argument, n);
+        return expressions.SRT(expression, argument, n, getNumbers(tag));
     }
 }
 
@@ -166,7 +169,17 @@ void IML::writeOuput(const std::string& fileName, const std::string &expression)
 
 
 
-void IML::parser(const std::string input, const std::string output)
+void IML::parser(const std::string &input, const std::string &output)
 {
-
+    readInput(input);
+    std::stringstream save;
+    
+    for(std::string i : tag)
+    { 
+            save << Operation(i);    
+    }
 }
+
+
+//fix isValid
+//fix parser

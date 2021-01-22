@@ -32,11 +32,10 @@ class IML
     
     Expressions expressions;
 
-    DLList<double> numbers;
-
-    //******************************************************
+    
     public:
-    bool isValid(DLList<std::string>);
+
+    bool isValid(const std::string &tag);
     //expression - Tag or String?
     void readInput(const std::string& fileName);
 
@@ -54,7 +53,7 @@ class IML
     DLList<double> getNumbers(std::string &tag);
 
     //performs operation
-    void Operation(const std::string &tag);
+    DLList<double> Operation(std::string &tag);
 
     //write in File
     void writeOuput(const std::string& fileName, const std::string &expression);
@@ -63,7 +62,7 @@ class IML
     public:
 
     //combines all the functions in one 
-    void parser(const std::string input, const std::string output);
+    void parser(const std::string &input, const std::string &output);
 
 
 };
